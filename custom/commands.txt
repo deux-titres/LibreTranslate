@@ -1,9 +1,9 @@
 ## Setup remote production context
-docker context create msnode2-root --docker "host=ssh://root@100.87.101.87"
+docker context create mscloud2-root --docker "host=ssh://root@mscloud2"
 
 ## Switch
 docker context use desktop-linux  ## to local dev
-docker context use msnode2-root   ## to production
+docker context use mscloud2-root   ## to production
 
 ## Build image (local or production)
 docker buildx build -t translate -f ./custom/custom.Dockerfile .
