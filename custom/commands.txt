@@ -1,0 +1,14 @@
+## Setup remote production context
+docker context create msnode2-root --docker "host=ssh://root@100.87.101.87"
+
+## Switch
+docker context use desktop-linux  ## to local dev
+docker context use msnode2-root   ## to production
+
+## Build image (local or production)
+docker buildx build -t translate -f ./custom/custom.Dockerfile .
+
+## Run on local dev
+docker run -d --name translate-dev-01 --restart=unless-stopped --env-file=custom/dev.env --volume lt-local:/home/libretranslate/.local --volume lt-db:/app/db -p "5000:5000" -i translate
+## Run on production
+docker run -d --name translate-prod-01 --restart=unless-stopped --env-file=custom/production.env --volume lt-local:/home/libretranslate/.local --volume lt-db:/app/db -p "5000:5000" -i translate
